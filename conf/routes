@@ -5,6 +5,10 @@
 # Home page
 GET     /                                       Application.index
 
+GET     /viewings                               Viewings.list
+
+POST    /viewings                               Viewings.persist
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 
