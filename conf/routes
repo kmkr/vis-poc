@@ -8,7 +8,8 @@ GET     /                                       Application.index
 GET     /viewings                               Viewings.list
 
 POST    /viewings                               Viewings.persist
-PUT    /viewings/{id}                               Viewings.update(format: 'json')
+PUT    /viewings/{id}                           Viewings.update(format:'json')
+DELETE  /viewings/{id}                          Viewings.destroy
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
