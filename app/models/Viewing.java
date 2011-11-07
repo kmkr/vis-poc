@@ -7,7 +7,7 @@ import play.db.jpa.Model;
 
 @Entity
 public class Viewing extends Model {
-   
+
     public String address;
     
 }
