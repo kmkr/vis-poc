@@ -14,7 +14,10 @@
       <li data-name="address">Address:<span data-name="content"> <%= address %></span> <input type="text" value="<%= address %>" /> </li>
       <li><a class="destroy" href="#">Eliminar:</a></li>
     </script>
-          	
+        <script id="create-viewing-template" type="text/html">
+            <label for="address">Address: </label><input type="text" id="address" />
+        </script>
+
         <script src="@{'/public/js/libs/underscore-min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         <script src="@{'/public/js/libs/backbone.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         <script src="@{'/public/js/app.js'}" type="text/javascript" charset="${_response_encoding}"></script>

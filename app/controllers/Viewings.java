@@ -9,7 +9,6 @@ import com.google.gson.JsonParser;
 import models.Viewing;
 import play.db.jpa.JPABase;
 import play.mvc.Controller;
-import play.mvc.Scope;
 
 public class Viewings extends Controller {
 
@@ -18,7 +17,8 @@ public class Viewings extends Controller {
         renderJSON(list);
     }
     
-    public static void persist(Viewing viewing) {
+    public static void persist(String body) {
+		Viewing viewing = new Gson().fromJson(body, Viewing.class);
         viewing.save();
         renderJSON(viewing);
     }

@@ -1,3 +1,23 @@
+app.views.CreateViewing = Backbone.View.extend({
+	template: _.template($('#create-viewing-template').html()),
+	initialize: function () {
+		console.log(this);
+		_.bindAll(this, 'createOnEnter');
+	},
+	events: {
+		"keypress input": "createOnEnter"
+	},
+	render: function() {
+		$(this.el).html(this.template());
+		return this;
+	},
+	createOnEnter: function(e) {
+		if (e.charCode != 13) return;
+		var model = new app.models.Viewing({address: $(e.target).closest("input").val() });
+		model.save();
+	}
+});
+
 app.views.Viewing = Backbone.View.extend({
   
   tagName: "ul",
@@ -5,7 +25,6 @@ app.views.Viewing = Backbone.View.extend({
   template: _.template($('#viewing-template').html()),
   
   initialize: function () {
-	  console.log(this);
     _.bindAll(this, 'render', 'clear', 'destroy', 'updateOnEnter');
     this.model.bind('change', this.render);
     this.model.bind('clear', this.destroy);
@@ -37,7 +56,8 @@ app.views.Viewing = Backbone.View.extend({
       $(e.target).prev("[data-name=content]").show();
     }
   },
-  
+
+
   clear: function() {
     this.model.clear();
     this.destroy();

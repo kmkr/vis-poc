@@ -5,7 +5,7 @@ app.collections.Viewing = Backbone.Collection.extend({
   url: "/viewings",
   
   renderLibrary: function(lib){
-    console.log("Rendering library");
+    console.log("Rendering library with lib: %o", lib);
     lib.each(function(viewing){
       var view = new app.views.Viewing({model: viewing});
       $("#viewings").append(view.render().el);
