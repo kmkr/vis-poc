@@ -6,3 +6,6 @@
 .project
 .settings/
 /eclipse
+
+/logs
+server.pid
