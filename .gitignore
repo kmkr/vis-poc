@@ -1,3 +1,8 @@
-tmp
+\tmp
 .idea
 *.iml
+
+.classpath
+.project
+.settings/
+/eclipse
