@@ -6,17 +6,15 @@ class ViewingList extends Backbone.Collection
   renderList: (items) ->
     items.each (item) ->
       view = new ViewingView({model: item})
-      #$('div.insert').append(view.render().el)
-      
-  
+      $('#insert').append(view.render().el)
+
 class ViewingView extends Backbone.View
-  template: _.template('<input type="text" value="<%= address %>" />')
+  template: _.template('[id: <%= id %>] Address: <span data-name="content"> <%= address %></span>')
   render: ->
-    $(@el).html(@template(@model.toJSON()));
+    $(@el).html(@template(@model.toJSON()))
     @
     
 class AppView extends Backbone.View
-  id: "insert"
   initialize: ->
     @list = new ViewingList()
     @list.fetch({success: @list.renderList})

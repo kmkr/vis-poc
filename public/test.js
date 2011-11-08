@@ -25,9 +25,10 @@
     ViewingList.prototype.renderList = function(items) {
       return items.each(function(item) {
         var view;
-        return view = new ViewingView({
+        view = new ViewingView({
           model: item
         });
+        return $('#insert').append(view.render().el);
       });
     };
     return ViewingList;
@@ -37,7 +38,7 @@
     function ViewingView() {
       ViewingView.__super__.constructor.apply(this, arguments);
     }
-    ViewingView.prototype.template = _.template('<input type="text" value="<%= address %>" />');
+    ViewingView.prototype.template = _.template('[id: <%= id %>] Address: <span data-name="content"> <%= address %></span>');
     ViewingView.prototype.render = function() {
       $(this.el).html(this.template(this.model.toJSON()));
       return this;
@@ -49,7 +50,6 @@
     function AppView() {
       AppView.__super__.constructor.apply(this, arguments);
     }
-    AppView.prototype.id = "insert";
     AppView.prototype.initialize = function() {
       this.list = new ViewingList();
       return this.list.fetch({
