@@ -1,5 +1,5 @@
 (function() {
-  var AppView, Viewing, ViewingList, ViewingView, app;
+  var AppRouter, Viewing, ViewingCollection, ViewingListView, ViewingView, app;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
@@ -15,14 +15,23 @@
     }
     return Viewing;
   })();
-  ViewingList = (function() {
-    __extends(ViewingList, Backbone.Collection);
-    function ViewingList() {
-      ViewingList.__super__.constructor.apply(this, arguments);
+  ViewingCollection = (function() {
+    __extends(ViewingCollection, Backbone.Collection);
+    function ViewingCollection() {
+      ViewingCollection.__super__.constructor.apply(this, arguments);
     }
-    ViewingList.prototype.model = Viewing;
-    ViewingList.prototype.url = "/viewings";
-    ViewingList.prototype.renderList = function(items) {
+    ViewingCollection.prototype.model = Viewing;
+    ViewingCollection.prototype.url = "/viewings";
+    return ViewingCollection;
+  })();
+  ViewingListView = (function() {
+    __extends(ViewingListView, Backbone.View);
+    function ViewingListView() {
+      ViewingListView.__super__.constructor.apply(this, arguments);
+    }
+    ViewingListView.prototype.el = "<ul>";
+    ViewingListView.prototype.render = function() {};
+    ViewingListView.prototype.renderList = function(items) {
       return items.each(function(item) {
         var view;
         view = new ViewingView({
@@ -31,13 +40,14 @@
         return $('#insert').append(view.render().el);
       });
     };
-    return ViewingList;
+    return ViewingListView;
   })();
   ViewingView = (function() {
     __extends(ViewingView, Backbone.View);
     function ViewingView() {
       ViewingView.__super__.constructor.apply(this, arguments);
     }
+    ViewingView.prototype.el = "<li>";
     ViewingView.prototype.template = _.template('[id: <%= id %>] Address: <span data-name="content"> <%= address %></span>');
     ViewingView.prototype.render = function() {
       $(this.el).html(this.template(this.model.toJSON()));
@@ -45,18 +55,24 @@
     };
     return ViewingView;
   })();
-  AppView = (function() {
-    __extends(AppView, Backbone.View);
-    function AppView() {
-      AppView.__super__.constructor.apply(this, arguments);
+  AppRouter = (function() {
+    __extends(AppRouter, Backbone.Router);
+    function AppRouter() {
+      AppRouter.__super__.constructor.apply(this, arguments);
     }
-    AppView.prototype.initialize = function() {
-      this.list = new ViewingList();
-      return this.list.fetch({
-        success: this.list.renderList
+    AppRouter.prototype.routes = {
+      "": "index"
+    };
+    AppRouter.prototype.index = function() {
+      var collection, list;
+      list = new ViewingListView();
+      collection = new ViewingCollection();
+      return collection.fetch({
+        success: list.renderList
       });
     };
-    return AppView;
+    return AppRouter;
   })();
-  app = new AppView();
+  app = new AppRouter();
+  Backbone.history.start();
 }).call(this);
