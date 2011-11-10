@@ -18,15 +18,21 @@
             <label for="address">Address: </label><input type="text" id="address" />
         </script>
 
+		<script src="@{'/public/js/libs/trimpath-template-1.0.38.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         <script src="@{'/public/js/libs/underscore-min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         <script src="@{'/public/js/libs/backbone.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         <script src="@{'/public/test.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         
         #{get 'moreScripts' /}
+        <style>
+        	.edit_element {
+        		display: none;
+        	}
+        	
+        </style>
+        
     </head>
     <body>
-
-	<div id="insert"></div>
 
     </body>
 </html>
