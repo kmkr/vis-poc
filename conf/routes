@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-GET     /                                       Application.index
+GET     /                                       Application.coffee
 
 GET     /viewings                               Viewings.list
 

@@ -7,21 +7,13 @@
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
         #{get 'moreStyles' /}
         <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
-        <script src="@{'/public/js/libs/jquery-1.5.2.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
           	
           	
-    	<script id="viewing-template" type="text/html">
-	      <li data-name="address">Address:<span data-name="content"> <%= address %></span> <input type="text" value="<%= address %>" /> </li>
-	      <li><a class="destroy" href="#">Eliminar:</a></li>
-	    </script>
-        <script id="create-viewing-template" type="text/html">
-            <label for="address">Address: </label><input type="text" id="address" />
-        </script>
-
-		<script src="@{'/public/js/libs/soyutils.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+		<script src="@{'/public/javascripts/libs/jquery-1.7.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        <script src="@{'/public/javascripts/libs/underscore-min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+		<script src="@{'/public/javascripts/libs/soyutils.js'}" type="text/javascript" charset="${_response_encoding}"></script>
 		<script src="@{'/public/javascripts/ViewingTemplate.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-        <script src="@{'/public/js/libs/underscore-min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-        <script src="@{'/public/js/libs/backbone.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        <script src="@{'/public/javascripts/libs/backbone.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         <script>
         	Backbone.View.prototype.destroy = function() {
         		this.unbind();
