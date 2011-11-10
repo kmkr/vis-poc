@@ -1,0 +1,28 @@
+{namespace app.templates}
+
+/**
+ * @param id
+ * @param? address
+ */
+{template .ViewingTemplate}
+[id: {$id}]
+Address: <span data-name="content">{$address}</span>
+<input type="text" class="edit_element" value="{$address}" />
+{/template}
+
+
+/**
+ * 
+ */
+{template .ViewingFormTemplate}
+<input type="text" />
+<a href="#">back</a>
+{/template}
+
+
+/**
+ * 
+ */
+{template .IndexTemplate}
+<a href="#list">list</a>
+{/template}

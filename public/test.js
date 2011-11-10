@@ -1,5 +1,5 @@
 (function() {
-  var AppRouter, Viewing, ViewingCollection, ViewingFormView, ViewingIndexView, ViewingListView, ViewingView, app, viewingCollection;
+  var AppRouter, IndexView, Viewing, ViewingCollection, ViewingFormView, ViewingIndexView, ViewingListView, ViewingView;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
@@ -40,8 +40,8 @@
       return this;
     };
     ViewingIndexView.prototype.renderPage = function(form, list) {
-      $("body").append(form.render().el);
-      return $("body").append(list.renderList(this.items).el);
+      $(this.el).append(form.render().el);
+      return $(this.el).append(list.renderList(this.items).el);
     };
     return ViewingIndexView;
   })();
@@ -50,7 +50,7 @@
     function ViewingFormView() {
       ViewingFormView.__super__.constructor.apply(this, arguments);
     }
-    ViewingFormView.prototype.template = _.template('<input id="createField" type="text" />');
+    ViewingFormView.prototype.template = app.templates.ViewingFormTemplate;
     ViewingFormView.prototype.events = {
       "keypress input": "saveOnEnter"
     };
@@ -100,7 +100,7 @@
       ViewingView.__super__.constructor.apply(this, arguments);
     }
     ViewingView.prototype.el = "<li data-name='address'>";
-    ViewingView.prototype.template = _.template('[id: <%= id %>] Address: <span data-name="content"> <%= address %></span> <input type="text" class="edit_element" value="<%= address %>" />');
+    ViewingView.prototype.template = app.templates.ViewingTemplate;
     ViewingView.prototype.initialize = function() {
       _.bindAll(this, 'render');
       return this.model.bind('change', this.render);
@@ -130,28 +130,55 @@
     };
     return ViewingView;
   })();
+  IndexView = (function() {
+    __extends(IndexView, Backbone.View);
+    function IndexView() {
+      IndexView.__super__.constructor.apply(this, arguments);
+    }
+    IndexView.prototype.template = app.templates.IndexTemplate;
+    IndexView.prototype.render = function() {
+      $(this.el).append(this.template);
+      return this;
+    };
+    return IndexView;
+  })();
   AppRouter = (function() {
     __extends(AppRouter, Backbone.Router);
     function AppRouter() {
+      this.list = __bind(this.list, this);
       AppRouter.__super__.constructor.apply(this, arguments);
     }
     AppRouter.prototype.routes = {
-      "": "index"
+      "": "index",
+      "list": "list"
+    };
+    AppRouter.prototype.swap = function(view) {
+      if (this.view) {
+        this.view.destroy();
+      }
+      this.view = view;
+      return $("body").html(this.view.render().el);
     };
     AppRouter.prototype.index = function() {
+      var indexview;
+      indexview = new IndexView();
+      return this.swap(indexview);
+    };
+    AppRouter.prototype.list = function() {
       var mainview;
       mainview = new ViewingIndexView();
       return viewingCollection.fetch({
-        success: function(param) {
+        success: __bind(function(param) {
           mainview.setCollection(param);
-          return mainview.render();
-        }
+          return this.swap(mainview);
+        }, this)
       });
     };
     return AppRouter;
   })();
-  console.log(TrimPath.parseDOMTemplate(""));
-  viewingCollection = new ViewingCollection();
-  app = new AppRouter();
-  Backbone.history.start();
+  $(function() {
+    window.viewingCollection = new ViewingCollection();
+    new AppRouter();
+    return Backbone.history.start();
+  });
 }).call(this);

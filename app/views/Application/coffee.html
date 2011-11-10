@@ -18,9 +18,17 @@
             <label for="address">Address: </label><input type="text" id="address" />
         </script>
 
-		<script src="@{'/public/js/libs/trimpath-template-1.0.38.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+		<script src="@{'/public/js/libs/soyutils.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+		<script src="@{'/public/javascripts/ViewingTemplate.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         <script src="@{'/public/js/libs/underscore-min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         <script src="@{'/public/js/libs/backbone.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        <script>
+        	Backbone.View.prototype.destroy = function() {
+        		this.unbind();
+        		this.remove();
+        	}
+        </script>
+        
         <script src="@{'/public/test.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         
         #{get 'moreScripts' /}
@@ -33,6 +41,5 @@
         
     </head>
     <body>
-
     </body>
 </html>

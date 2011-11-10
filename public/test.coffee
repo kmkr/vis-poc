@@ -1,5 +1,5 @@
 class Viewing extends Backbone.Model
-  
+
 class ViewingCollection extends Backbone.Collection
   model: Viewing
   url: "/viewings"
@@ -14,12 +14,11 @@ class ViewingIndexView extends Backbone.View
     @
     
   renderPage: (form, list) ->
-    $("body").append(form.render().el)
-    $("body").append(list.renderList(@items).el)
+    $(@el).append(form.render().el)
+    $(@el).append(list.renderList(@items).el)
     
-  
 class ViewingFormView extends Backbone.View
-  template: _.template('<input id="createField" type="text" />')
+  template: app.templates.ViewingFormTemplate
   events: {
     "keypress input" : "saveOnEnter"
   }
@@ -51,7 +50,7 @@ class ViewingListView extends Backbone.View
 
 class ViewingView extends Backbone.View
   el: "<li data-name='address'>"
-  template: _.template('[id: <%= id %>] Address: <span data-name="content"> <%= address %></span> <input type="text" class="edit_element" value="<%= address %>" />')
+  template: app.templates.ViewingTemplate
   initialize: ->
     _.bindAll(@, 'render')
     @model.bind('change', @render)
@@ -79,20 +78,37 @@ class ViewingView extends Backbone.View
     @
   
 
+class IndexView extends Backbone.View
+  template: app.templates.IndexTemplate
+  render: ->
+    $(@el).append(@template)
+    @
+
 class AppRouter extends Backbone.Router
   routes: {
-    "": "index"
+    ""      : "index",
+    "list"  : "list"
   }
-  
+
+  swap: (view) ->
+    @view.destroy() if @view
+    @view = view
+    $("body").html(@view.render().el)
+
   index: ->
+    indexview = new IndexView()
+    @swap(indexview)
+  
+  list: =>
     mainview = new ViewingIndexView()
-    viewingCollection.fetch({success: (param) ->
+    viewingCollection.fetch({success: (param) =>
       mainview.setCollection(param)
-      mainview.render()
+      @swap(mainview)
       })
   
   
-console.log(TrimPath.parseDOMTemplate(""))
-viewingCollection = new ViewingCollection()
-app = new AppRouter()
-Backbone.history.start()
+
+$ ->
+  window.viewingCollection =  new ViewingCollection()
+  new AppRouter()
+  Backbone.history.start()

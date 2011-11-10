@@ -2,3 +2,4 @@
 
 require:
     - play
+    - play -> googleclosure 1.1
