@@ -152,12 +152,18 @@
       "": "index",
       "list": "list"
     };
-    AppRouter.prototype.swap = function(view) {
+    AppRouter.prototype.swap = function(newView) {
       if (this.view) {
-        this.view.destroy();
+        $(this.view.el).bind("webkitTransitionEnd", __bind(function() {
+          this.view.destroy();
+          this.view = newView;
+          return $("body").html(this.view.render().el);
+        }, this));
+        return $(this.view.el).addClass("swipe-right");
+      } else {
+        this.view = newView;
+        return $("body").html(this.view.render().el);
       }
-      this.view = view;
-      return $("body").html(this.view.render().el);
     };
     AppRouter.prototype.index = function() {
       var indexview;

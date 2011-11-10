@@ -90,10 +90,18 @@ class AppRouter extends Backbone.Router
     "list"  : "list"
   }
 
-  swap: (view) ->
-    @view.destroy() if @view
-    @view = view
-    $("body").html(@view.render().el)
+  swap: (newView) ->
+    if @view
+      $(@view.el).bind("webkitTransitionEnd", =>
+        @view.destroy()
+        @view = newView 
+        $("body").html(@view.render().el) 
+      )
+      $(@view.el).addClass("swipe-right")
+    else
+      @view = newView
+      $("body").html(@view.render().el)
+    
 
   index: ->
     indexview = new IndexView()
@@ -105,8 +113,6 @@ class AppRouter extends Backbone.Router
       mainview.setCollection(param)
       @swap(mainview)
       })
-  
-  
 
 $ ->
   window.viewingCollection =  new ViewingCollection()
