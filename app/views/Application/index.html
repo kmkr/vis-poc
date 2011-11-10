@@ -14,46 +14,13 @@
 		<script src="@{'/public/javascripts/libs/soyutils.js'}" type="text/javascript" charset="${_response_encoding}"></script>
 		<script src="@{'/public/javascripts/ViewingTemplate.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         <script src="@{'/public/javascripts/libs/backbone.js'}" type="text/javascript" charset="${_response_encoding}"></script>
-        <script>
-        	Backbone.View.prototype.destroy = function() {
-        		this.unbind();
-        		this.remove();
-        	}
-        	
-        </script>
         
-        <script src="@{'/public/test.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        <script src="@{'/public/javascripts/application.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        <script src="@{'/public/javascripts/ViewingApplication.coffee'}" type="text/javascript" charset="${_response_encoding}"></script>
         
         #{get 'moreScripts' /}
-        <style>
-        	body {
-        		overflow-x: hidden;
-        	}
-        
-        	.edit_element {
-        		display: none;
-        	}
-        	
-        	.swipe-right {
-        		-webkit-transform: translate3d(100%, 0px, 0px);
-        		-webkit-transition: -webkit-transform 0.5s ease-in;
-        	}
-        </style>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
     </head>
+
     <body>
     </body>
 </html>
