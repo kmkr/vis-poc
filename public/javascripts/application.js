@@ -8,10 +8,6 @@
     child.__super__ = parent.prototype;
     return child;
   }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-  Backbone.View.prototype.destroy = function() {
-    this.unbind();
-    return this.remove();
-  };
   Viewing = (function() {
     __extends(Viewing, Backbone.Model);
     function Viewing() {
@@ -48,6 +44,54 @@
       return $(this.el).append(list.renderList(this.items).el);
     };
     return ViewingIndexView;
+  })();
+  ViewingView = (function() {
+    __extends(ViewingView, Backbone.View);
+    function ViewingView() {
+      ViewingView.__super__.constructor.apply(this, arguments);
+    }
+    ViewingView.prototype.el = "<li data-name='address'>";
+    ViewingView.prototype.template = app.templates.ViewingTemplate;
+    ViewingView.prototype.initialize = function() {
+      _.bindAll(this, 'render');
+      return this.model.bind('change', this.render);
+    };
+    ViewingView.prototype.events = {
+      "dblclick span[data-name=content]": "edit",
+      "keypress li input": "updateOnEnter"
+    };
+    ViewingView.prototype.edit = function(evt) {
+      $(evt.target).hide();
+      return $(evt.target).next("input").show();
+    };
+    ViewingView.prototype.updateOnEnter = function(evt) {
+      var attr, send;
+      if (evt.keyCode === 13) {
+        attr = $(evt.target).closest("li").attr("data-name");
+        send = {};
+        send[attr] = $(evt.target).val();
+        this.model.save(send);
+        $(evt.target).hide();
+        return $(evt.target).prev("[data-name=content]").show();
+      }
+    };
+    ViewingView.prototype.render = function() {
+      $(this.el).html(this.template(this.model.toJSON()));
+      return this;
+    };
+    return ViewingView;
+  })();
+  IndexView = (function() {
+    __extends(IndexView, Backbone.View);
+    function IndexView() {
+      IndexView.__super__.constructor.apply(this, arguments);
+    }
+    IndexView.prototype.template = app.templates.IndexTemplate;
+    IndexView.prototype.render = function() {
+      $(this.el).append(this.template);
+      return this;
+    };
+    return IndexView;
   })();
   ViewingFormView = (function() {
     __extends(ViewingFormView, Backbone.View);
@@ -98,54 +142,6 @@
     };
     return ViewingListView;
   })();
-  ViewingView = (function() {
-    __extends(ViewingView, Backbone.View);
-    function ViewingView() {
-      ViewingView.__super__.constructor.apply(this, arguments);
-    }
-    ViewingView.prototype.el = "<li data-name='address'>";
-    ViewingView.prototype.template = app.templates.ViewingTemplate;
-    ViewingView.prototype.initialize = function() {
-      _.bindAll(this, 'render');
-      return this.model.bind('change', this.render);
-    };
-    ViewingView.prototype.events = {
-      "dblclick span[data-name=content]": "edit",
-      "keypress li input": "updateOnEnter"
-    };
-    ViewingView.prototype.edit = function(evt) {
-      $(evt.target).hide();
-      return $(evt.target).next("input").show();
-    };
-    ViewingView.prototype.updateOnEnter = function(evt) {
-      var attr, send;
-      if (evt.keyCode === 13) {
-        attr = $(evt.target).closest("li").attr("data-name");
-        send = {};
-        send[attr] = $(evt.target).val();
-        this.model.save(send);
-        $(evt.target).hide();
-        return $(evt.target).prev("[data-name=content]").show();
-      }
-    };
-    ViewingView.prototype.render = function() {
-      $(this.el).html(this.template(this.model.toJSON()));
-      return this;
-    };
-    return ViewingView;
-  })();
-  IndexView = (function() {
-    __extends(IndexView, Backbone.View);
-    function IndexView() {
-      IndexView.__super__.constructor.apply(this, arguments);
-    }
-    IndexView.prototype.template = app.templates.IndexTemplate;
-    IndexView.prototype.render = function() {
-      $(this.el).append(this.template);
-      return this;
-    };
-    return IndexView;
-  })();
   AppRouter = (function() {
     __extends(AppRouter, Backbone.Router);
     function AppRouter() {
@@ -186,6 +182,10 @@
     };
     return AppRouter;
   })();
+  Backbone.View.prototype.destroy = function() {
+    this.unbind();
+    return this.remove();
+  };
   $(function() {
     window.viewingCollection = new ViewingCollection();
     new AppRouter();
