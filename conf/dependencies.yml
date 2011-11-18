@@ -3,4 +3,3 @@
 require:
     - play
     - play -> googleclosure 1.1
-    - play -> coffee 1.0

@@ -24,27 +24,6 @@
     ViewingCollection.prototype.url = "/viewings";
     return ViewingCollection;
   })();
-  ViewingIndexView = (function() {
-    __extends(ViewingIndexView, Backbone.View);
-    function ViewingIndexView() {
-      ViewingIndexView.__super__.constructor.apply(this, arguments);
-    }
-    ViewingIndexView.prototype.setCollection = function(items) {
-      this.items = items;
-    };
-    ViewingIndexView.prototype.render = function() {
-      var form, list;
-      form = new ViewingFormView();
-      list = new ViewingListView();
-      this.renderPage(form, list);
-      return this;
-    };
-    ViewingIndexView.prototype.renderPage = function(form, list) {
-      $(this.el).append(form.render().el);
-      return $(this.el).append(list.renderList(this.items).el);
-    };
-    return ViewingIndexView;
-  })();
   ViewingView = (function() {
     __extends(ViewingView, Backbone.View);
     function ViewingView() {
@@ -81,17 +60,26 @@
     };
     return ViewingView;
   })();
-  IndexView = (function() {
-    __extends(IndexView, Backbone.View);
-    function IndexView() {
-      IndexView.__super__.constructor.apply(this, arguments);
+  ViewingIndexView = (function() {
+    __extends(ViewingIndexView, Backbone.View);
+    function ViewingIndexView() {
+      ViewingIndexView.__super__.constructor.apply(this, arguments);
     }
-    IndexView.prototype.template = app.templates.IndexTemplate;
-    IndexView.prototype.render = function() {
-      $(this.el).append(this.template);
+    ViewingIndexView.prototype.setCollection = function(items) {
+      this.items = items;
+    };
+    ViewingIndexView.prototype.render = function() {
+      var form, list;
+      form = new ViewingFormView();
+      list = new ViewingListView();
+      this.renderPage(form, list);
       return this;
     };
-    return IndexView;
+    ViewingIndexView.prototype.renderPage = function(form, list) {
+      $(this.el).append(form.render().el);
+      return $(this.el).append(list.renderList(this.items).el);
+    };
+    return ViewingIndexView;
   })();
   ViewingFormView = (function() {
     __extends(ViewingFormView, Backbone.View);
@@ -117,6 +105,18 @@
       return this;
     };
     return ViewingFormView;
+  })();
+  IndexView = (function() {
+    __extends(IndexView, Backbone.View);
+    function IndexView() {
+      IndexView.__super__.constructor.apply(this, arguments);
+    }
+    IndexView.prototype.template = app.templates.IndexTemplate;
+    IndexView.prototype.render = function() {
+      $(this.el).append(this.template);
+      return this;
+    };
+    return IndexView;
   })();
   ViewingListView = (function() {
     __extends(ViewingListView, Backbone.View);
