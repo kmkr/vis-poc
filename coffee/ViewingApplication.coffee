@@ -1,3 +1,7 @@
+Backbone.View::destroy = ->
+  @unbind()
+  @remove()
+
 class Viewing extends Backbone.Model
 
 class ViewingCollection extends Backbone.Collection

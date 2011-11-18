@@ -6,8 +6,10 @@
 .project
 .settings/
 /eclipse
+.externalToolBuilders/
 
 /logs
 server.pid
 
 modules
+test-result/
